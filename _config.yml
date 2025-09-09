@@ -1,0 +1,8 @@
+title: SkySure Inspections
+url: "https://www.skysureinspections.com"
+baseurl: ""  # root domain
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+permalink: /blog/:title/
+markdown: kramdown

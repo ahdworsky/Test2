@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkySure Inspections</title>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding-top: 900px;
+      color: #1A2A3A;
+      background: url('Background.png') no-repeat center center fixed;
+      background-size: cover;
+      z-index: 0;
+      position: relative;
+      overflow-x: hidden;
+      background-color: transparent;
+    }
+    .nav-container {
+      background-color: #0E1F2F;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1001;
+    }
+    nav {
+      background: transparent;
+      width: 100%;
+      padding: 10px 0;
+      text-align: center;
+      font-weight: bold;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+    .cta-top-left {
+      position: fixed;
+      top: 75px;
+      left: 20px;
+      z-index: 1003;
+    }
+    .cta-top-left button {
+      background-color: #EA5A1F;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+    #appointment-form {
+      display: none;
+      position: fixed;
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      z-index: 1005;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    #appointment-form .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #appointment-form input,
+    #appointment-form select,
+    #appointment-form textarea {
+      width: 100%;
+      margin: 10px 0;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    #appointment-form button {
+      background-color: #0E1F2F;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #confirmation-popup {
+      display: none;
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border: 2px solid #0E1F2F;
+      border-radius: 10px;
+      padding: 30px;
+      z-index: 1006;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+    #confirmation-popup .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    header {
+      background-color: transparent;
+      padding: 10px 20px;
+      text-align: center;
+      position: fixed;
+      top: 25px;
+      width: 100%;
+      height: auto;
+      z-index: 1002;
+    }
+    header img {
+      max-width: 300px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      background: transparent;
+      transition: all 0.5s ease;
+    }
+    .logo-fixed-small {
+      max-width: 150px !important;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      margin: 0 !important;
+      z-index: 1004;
+    }
+    section {
+      padding: 30px;
+      background-color: transparent;
+      margin-top: 80px;
+      border-radius: 8px;
+      position: relative;
+      z-index: -10;
+    }
+    h2 {
+      color: #0E1F2F;
+    }
+    footer {
+      background-color: #0E1F2F;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+      z-index: -3;
+      position: relative;
+    }
+    strong {
+      color: #EA5A1F;
+    }
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 1000px;
+      gap: 30px;
+      margin: 0 auto;
+    }
+    .service-box {
+      background-color: #ffffffcc;
+      padding: 25px;
+      border-radius: 15px;
+      width: 280px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .bottom-row {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-container">
+    <nav>
+      <a href="#">Home</a>
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+    </nav>
+  </div>
+
+  <div class="cta-top-left">
+    <button onclick="toggleForm()">Schedule an Inspection</button>
+  </div>
+
+  <div id="appointment-form">
+    <span class="close-btn" onclick="toggleForm()">&times;</span>
+    <h3>Schedule an Inspection</h3>
+    <form id="inspection-form" action="https://formspree.io/f/xnnzvgyl" method="POST">
+      <input type="text" name="Name" placeholder="Name" required>
+      <input type="email" name="Email" placeholder="Email" required>
+      <input type="tel" name="Phone" placeholder="Phone #">
+      <select name="Service">
+        <option value="Roof Snapshot">Roof Snapshot</option>
+        <option value="Detailed Roof Report">Detailed Roof Report</option>
+        <option value="Realtor Marketing Add-On">Realtor Marketing Add-On</option>
+        <option value="Land Survey Flyover">Land Survey Flyover</option>
+        <option value="Insurance Claim Documentation">Insurance Claim Documentation</option>
+      </select>
+      <input type="text" name="Timeframe" placeholder="Preferred Timeframe">
+      <textarea name="Comments" placeholder="Additional Comments"></textarea>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <header id="top">
+    <img id="main-logo" src="Final_Logo_Transparent.png" alt="SkySure Inspections Logo" class="logo-large" style="background-color: transparent;" />
+  </header>
+
+  <section id="services" style="scroll-margin-top: 150px;">
+    <h2>Services</h2>
+    <div class="service-grid">
+      <div class="service-box">
+        <h3>Roof Snapshot</h3>
+        <p>High-resolution aerial imagery for a quick overview of your roof’s condition.</p>
+        <p><strong>$125 / $175</strong></p>
+      </div>
+      <div class="service-box">
+        <h3>Detailed Roof Report</h3>
+        <p>In-depth drone imaging documenting wear or damage—great for buyers or sellers.</p>
+        <p><strong>$150 / $200</strong></p>
+      </div>
+      <div class="service-box">
+        <h3>Realtor Marketing Add-On</h3>
+        <p>Aerial footage to elevate your listing with dramatic views and visual clarity.</p>
+        <p><strong>$50 Add-On</strong></p>
+      </div>
+    </div>
+    <div class="bottom-row">
+      <div class="service-box">
+        <h3>Land Survey Flyover</h3>
+        <p>Visualize property lines, terrain, and boundaries for undeveloped or large parcels.</p>
+        <p><strong>Quote Required</strong></p>
+      </div>
+      <div class="service-box">
+        <h3>Insurance Claim Documentation</h3>
+        <p>Capture detailed roof damage imagery to support faster, smoother claim resolution.</p>
+        <p><strong>$150 Flat Rate</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>About SkySure</h2>
+    <p>
+      SkySure Inspections was created to give buyers, sellers, homeowners, and real estate agents peace of mind by offering a bird’s-eye view of one of the most expensive components of a home—the roof. With drone technology, we provide sharp aerial imagery that shows roof condition, potential damage, and layout before making an offer or listing a property. Our mission is to deliver fast, visual confidence from above.
+    </p>
+  </section>
+
+  <div style="height: 300px;"></div>
+
+  <footer>
+    FAA Part 107 Certified | Insured | Not a home inspection – just a clear, sky-high view of what matters most.<br>
+    <br>
+    <strong>Email:</strong> aaron@skysure.com<br>
+    <strong>Phone:</strong> 704-885-5795<br>
+    <strong>Location:</strong> Charlotte & surrounding areas<br>
+    <strong>Hours:</strong> M–F 9am–8pm | Sat 9am–6pm | Sun 9am–12pm
+  </footer>
+
+  <div id="confirmation-popup">
+    <span class="close-btn" onclick="closePopup()">&times;</span>
+    <p><strong>Request received.</strong><br>Someone will contact you shortly.</p>
+  </div>
+
+  <script>
+    function toggleForm() {
+      const form = document.getElementById("appointment-form");
+      form.style.display = form.style.display === "block" ? "none" : "block";
+    }
+
+    function closePopup() {
+      document.getElementById("confirmation-popup").style.display = "none";
+    }
+
+    const formElement = document.getElementById("inspection-form");
+    if (formElement) {
+      formElement.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(formElement);
+
+        fetch(formElement.action, {
+          method: "POST",
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        }).then(response => {
+          if (response.ok) {
+            document.getElementById("appointment-form").style.display = "none";
+            document.getElementById("confirmation-popup").style.display = "block";
+            formElement.reset();
+          } else {
+            alert("There was a problem submitting the form. Please try again later.");
+          }
+        }).catch(error => {
+          alert("There was an error sending your request.");
+          console.error(error);
+        });
+      });
+    }
+
+    window.addEventListener('scroll', () => {
+      const logo = document.getElementById('main-logo');
+      const services = document.getElementById('services');
+      const scrollY = window.scrollY;
+      const triggerY = services.offsetTop - 150;
+
+      if (scrollY >= triggerY) {
+        logo.classList.add('logo-fixed-small');
+      } else {
+        logo.classList.remove('logo-fixed-small');
+      }
+    });
+  </script>
+</body>
+</html>
